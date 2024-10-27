@@ -22,7 +22,7 @@ y = (screen_height - window.winfo_height()) // heightdivisor
 window.geometry(f"+{x}+{y}")
 
 #Main Title
-title_frame = tk.Frame(window, bg="lightblue", width=500, height=50)
+title_frame = tk.Frame(window, width=500, height=50)
 title_frame.pack(side=tk.TOP, fill=tk.X)
 title_label = tk.Label(title_frame, text="HANGMAN", font=("Helvetica", 20))
 title_label.pack(pady=10)
