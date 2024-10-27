@@ -2,6 +2,7 @@
 #Author: John Botonakis
 #Desc: Holds the main logic for displaying the window and it's pieces
 import tkinter as tk
+from HelperFunctions import create_alphabet_frame
 
 #Main window Setup
 window = tk.Tk()
@@ -47,33 +48,12 @@ guessed_text_label = tk.Label(guessed_letters_frame, text="Guesses: ", font=("He
 guessed_text_label.pack()
 
 
-#Keys
-alphabet_frame1 = tk.Frame(window, width=580, height=150)
-alphabet_frame1.place(relx=0.01, rely=0.7)
-alphabet_frame2 = tk.Frame(window, width=580, height=150)
-alphabet_frame2.place(relx=0.05, rely=0.78)
-alphabet_frame3 = tk.Frame(window, width=580, height=150)
-alphabet_frame3.place(relx=0.1, rely=0.86)
-alphabet_buttons = []
+# Keys (using a loop to create multiple frames)
+letter_sets = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"]
+rely_positions = [0.7, 0.78, 0.86]
 
-line1 = "QWERTYUIOP"
-line2 = "ASDFGHJKL"
-line3 = "ZXCVBNM"
-
-for letter in line1:
-    button = tk.Button(alphabet_frame1, text=letter, width=5)
-    button.pack(side=tk.LEFT, padx=5, pady=5)
-    alphabet_buttons.append(button)
-for letter in line2:
-    button = tk.Button(alphabet_frame2, text=letter, width=5)
-    button.pack(side=tk.LEFT, padx=5, pady=5)
-    alphabet_buttons.append(button)
-for letter in line3:
-    button = tk.Button(alphabet_frame3, text=letter, width=5)
-    button.pack(side=tk.LEFT, padx=5, pady=5)
-    alphabet_buttons.append(button)
-
-
+for letters, rely_position in zip(letter_sets, rely_positions):
+    create_alphabet_frame(window, rely_position, letters)
 
 if __name__ == '__main__':
     window.mainloop()
