@@ -28,14 +28,17 @@ title_label = tk.Label(title_frame, text="HANGMAN", font=("Helvetica", 20))
 title_label.pack(pady=10)
 
 #Hangman Frame
-gallows_frame = tk.Frame(window, bg="pink", width=185, height=300, relief=tk.RAISED)
+gallows_frame = tk.Frame(window, bg="pink", width=185, height=300, bd=2,relief = "raised")
 gallows_frame.place(relx=0.68, rely=0.1)
 
 
 #Guesses Frame
-guessed_letters_frame = tk.Frame(window, bg="green", width=200, height=50)
+guessed_letters_frame = tk.Frame(window, bd=2,relief = "raised", width=200, height=50)
 guessed_letters_frame.place(relx=0.01, rely=0.1, relwidth=0.5, relheight=0.2)
-
+# Label for "Guessed:" text
+guessed_text_label = tk.Label(guessed_letters_frame, text="Guesses: ", font=("Helvetica", 15))
+guessed_text_label.pack()
+# guessed_text_label.place(relx=0, rely=0)
 
 #Keys
 alphabet_frame1 = tk.Frame(window, width=580, height=150)
