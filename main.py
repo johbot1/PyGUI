@@ -2,7 +2,7 @@
 #Author: John Botonakis
 #Desc: Holds the main logic for displaying the window and it's pieces
 import tkinter as tk
-from HelperFunctions import create_alphabet_frame
+from HelperFunctions import keybuilder, guessbuilder, wordbuilder, gallowsbuilder
 
 #Main window Setup
 window = tk.Tk()
@@ -29,57 +29,17 @@ title_label = tk.Label(title_frame, text="HANGMAN", font=("Helvetica", 20))
 title_label.pack(pady=10)
 
 #Hangman Frame
-gallows_frame = tk.Frame(window, bg="pink", width=200, height=300, bd=2,relief = "raised")
-gallows_frame.place(relx=0.6, rely=0.1)
+gallowsbuilder(window)
 
 
 #Word Frame
-answer_frame = tk.Frame(window, bd=2,relief = "raised")
-answer_frame.place(relx=0.01, rely=0.4, relwidth=0.5, relheight=0.2)
-# Label for "Guessed:" text
-answer_text_label = tk.Label(answer_frame, text="Answer: ", font=("Helvetica", 15))
-answer_text_label.pack()
+wordbuilder(window)
 
 #Guesses Frame
-guessed_letters_frame = tk.Frame(window, bd=2,relief = "raised")
-guessed_letters_frame.place(relx=0.01, rely=0.1, relwidth=0.5, relheight=0.2)
-# Label for "Guessed:" text
-guessed_text_label = tk.Label(guessed_letters_frame, text="Guesses: ", font=("Helvetica", 15))
-guessed_text_label.pack()
-
+guessbuilder(window)
 
 #Keys
-alphabet_buttons = []
-alphabet_frame1 = tk.Frame(window, width=580, height=150)
-alphabet_frame1.place(relx=0.01, rely=0.7)
-
-alphabet_frame2 = tk.Frame(window, width=580, height=150)
-alphabet_frame2.place(relx=0.05, rely=0.78)
-
-alphabet_frame3 = tk.Frame(window, width=580, height=150)
-alphabet_frame3.place(relx=0.1, rely=0.86)
-
-line1 = "QWERTYUIOP"
-line2 = "ASDFGHJKL"
-line3 = "ZXCVBNM"
-
-
-for letter in line1:
-    # Creates a button with a unique name (button_a, button_b, etc)
-    button_name = f"button_{letter.lower()}"  #Makes lowercase for consistency
-    button = tk.Button(alphabet_frame1, text=letter, width=5, command=lambda letter=letter: print(letter))
-    button.pack(side=tk.LEFT, padx=5, pady=5)
-    alphabet_buttons.append(button)
-
-for letter in line2:
-    button = tk.Button(alphabet_frame2, text=letter, width=5, command=lambda letter=letter: print(letter))
-    button.pack(side=tk.LEFT, padx=5, pady=5)
-    alphabet_buttons.append(button)
-
-for letter in line3:
-    button = tk.Button(alphabet_frame3, text=letter, width=5, command=lambda letter=letter: print(letter))
-    button.pack(side=tk.LEFT, padx=5, pady=5)
-    alphabet_buttons.append(button)
+keybuilder(window)
 
 if __name__ == '__main__':
     window.mainloop()
