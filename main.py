@@ -35,7 +35,7 @@ gallowsbuilder(window)
 
 
 #Word Frame
-wordbuilder(window)
+wordbuilder(window,choose_word())
 
 #Guesses Frame
 guessbuilder(window)
@@ -44,5 +44,4 @@ guessbuilder(window)
 keybuilder(window)
 
 if __name__ == '__main__':
-    choose_word()
     window.mainloop()

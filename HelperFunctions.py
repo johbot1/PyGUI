@@ -51,12 +51,25 @@ def guessbuilder(window):
     guessed_text_label = tk.Label(guessed_letters_frame, text="Guesses: ", font=("Helvetica", 15))
     guessed_text_label.pack()
 
-def wordbuilder(window):
+    # Create the spaces for guessed letters (6 underscores)
+    guess_string = ' '.join(["_" for _ in range(6)])
+    guess_spaces = tk.Label(guessed_letters_frame, text=guess_string, font=("Helvetica", 15))
+    guess_spaces.pack()
+
+def wordbuilder(window,word):
     answer_frame = tk.Frame(window, bd=2, relief="raised")
     answer_frame.place(relx=0.01, rely=0.4, relwidth=0.5, relheight=0.2)
-    # Label for "Guessed:" text
-    answer_text_label = tk.Label(answer_frame, text="Answer: ", font=("Helvetica", 15))
+
+    # Label for "Answer:" text
+    answer_text_label = tk.Label(answer_frame, text="Answer:", font=("Helvetica", 15))
     answer_text_label.pack()
+
+    # Create the answer string with underscores
+    answer_string = " _ ".join("_" for _ in word)
+
+    # Label for the underscores
+    letter_spaces = tk.Label(answer_frame, text=answer_string, font=("Helvetica", 15))
+    letter_spaces.pack()
 
 def gallowsbuilder(window):
     gallows_frame = tk.Frame(window, bg="pink", width=200, height=300, bd=2, relief="raised")
