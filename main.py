@@ -3,6 +3,7 @@
 #Desc: Holds the main logic for displaying the window and it's pieces
 import tkinter as tk
 from HelperFunctions import keybuilder, guessbuilder, wordbuilder, gallowsbuilder
+from words import words, choose_word
 
 #Main window Setup
 window = tk.Tk()
@@ -13,9 +14,10 @@ window.resizable(False, False)
 #Centering the window to the screen
 screen_width = window.winfo_screenwidth()
 screen_height = window.winfo_screenheight()
+
 # Calculate window position
 widthdivisor = 2 #Found this to be good size for the dividing the width to keep window centered
-heightdivisor = 8 #Found this to be good size for the dividing the height to keep window centered
+heightdivisor = 6 #Found this to be good size for the dividing the height to keep window centered
 x = (screen_width - window.winfo_width()) // widthdivisor
 y = (screen_height - window.winfo_height()) // heightdivisor
 
@@ -42,4 +44,5 @@ guessbuilder(window)
 keybuilder(window)
 
 if __name__ == '__main__':
+    choose_word()
     window.mainloop()
