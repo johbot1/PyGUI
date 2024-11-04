@@ -3,7 +3,7 @@
 #Desc: Holds the main logic for displaying the window and it's pieces
 import tkinter as tk
 from HelperFunctions import keybuilder, guessbuilder, wordbuilder, gallowsbuilder
-from words import words, choose_word
+
 
 #Main window Setup
 window = tk.Tk()
@@ -23,7 +23,6 @@ y = (screen_height - window.winfo_height()) // heightdivisor
 
 # Sets window position
 window.geometry(f"+{x}+{y}")
-
 #Main Title
 title_frame = tk.Frame(window, width=500, height=50)
 title_frame.pack(side=tk.TOP, fill=tk.X)
@@ -33,9 +32,8 @@ title_label.pack(pady=10)
 #Hangman Frame
 gallowsbuilder(window)
 
-
 #Word Frame
-wordbuilder(window,choose_word())
+wordbuilder(window)
 
 #Guesses Frame
 guessbuilder(window)

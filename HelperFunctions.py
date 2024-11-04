@@ -3,9 +3,14 @@
 #Comments: Commenting Help from Google Gemini
 #Desc: Functions to aid in the building of the GUI and
 # address additional functionality where needed
-guessed_letters = []
 
+from words import words, choose_word
 import tkinter as tk
+
+guessed_letters = []
+chosen_word = choose_word()
+
+global answer_string, letter_spaces, guess_letters
 
 def keybuilder(window):
     """
@@ -43,7 +48,6 @@ def keybuilder(window):
             alphabet_buttons.append(button_name)  # Add the new button, with its name, into the buttons group
             # print(f'{button_name} "has been created!') #Debugging help
 
-
 def guessbuilder(window):
     guessed_letters_frame = tk.Frame(window, bd=2, relief="raised")
     guessed_letters_frame.place(relx=0.01, rely=0.1, relwidth=0.5, relheight=0.2)
@@ -56,7 +60,7 @@ def guessbuilder(window):
     guess_spaces = tk.Label(guessed_letters_frame, text=guess_string, font=("Helvetica", 15))
     guess_spaces.pack()
 
-def wordbuilder(window,word):
+def wordbuilder(window):
     answer_frame = tk.Frame(window, bd=2, relief="raised")
     answer_frame.place(relx=0.01, rely=0.4, relwidth=0.5, relheight=0.2)
 
@@ -65,7 +69,7 @@ def wordbuilder(window,word):
     answer_text_label.pack()
 
     # Create the answer string with underscores
-    answer_string = " _ ".join("_" for _ in word)
+    answer_string = " _ ".join("_" for _ in chosen_word)
 
     # Label for the underscores
     letter_spaces = tk.Label(answer_frame, text=answer_string, font=("Helvetica", 15))
@@ -76,9 +80,11 @@ def gallowsbuilder(window):
     gallows_frame.place(relx=0.6, rely=0.1)
 
 def update_guesses(letter):
-    global guessed_letters
     guessed_letters.append(letter)
-    update_guess_display()
+    print(f"Current letter: {letter}")
 
-def update_guess_display():
-    print('working')
+    # Iterate through each letter in the chosen word
+    for i, chosen_letter in enumerate(chosen_word):
+        if chosen_letter == letter:  # Check for correct guess
+            # Replace the corresponding underscore with the letter
+            answer_string = answer_string[:i] + letter + answer_string[i+1:]
