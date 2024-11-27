@@ -10,7 +10,9 @@ import tkinter as tk
 guessed_letters = []
 chosen_word = choose_word()
 
-global answer_string, letter_spaces, guess_letters
+global answer_string, guess_spaces, guess_letters, guess_limit
+
+guess_limit = 0
 
 def keybuilder(window):
     """
@@ -55,6 +57,8 @@ def guessbuilder(window):
     Args:
         window: The main Tkinter window object to attach the guessed letters frame to.
     """
+
+    global guess_spaces
     # Create a frame to hold the guessed letters section
     guessed_letters_frame = tk.Frame(window, bd=2, relief="raised")
     guessed_letters_frame.place(relx=0.01, rely=0.1, relwidth=0.5, relheight=0.2)
@@ -104,19 +108,19 @@ def update_guesses(letter):
        Args:
            letter: The letter that was pressed by the user.
        """
-    global answer_string
+    global guessed_letters, chosen_word, answer_string,current_answer  # Global variables for guessed letters and word
 
     #Case sensitivity (It will in fact kill me)
     letter = letter.lower()
-    chosen_word_lower = chosen_word.lower() # Convert the chosen word to lowercase
 
     # Check if the letter has already been guessed
     if letter in guessed_letters:
         print("You already guessed that letter. Try again.")
         return  # Don't do anything if the letter was already guessed
-
-    # Add the letter to the guessed letters list
-    guessed_letters.append(letter)
+    else:
+        # Add the letter to the guessed letters list
+        guessed_letters.append(letter)
+        update_guesses(letter)
 
     # Create a list of characters from the answer string (current state with underscores)
     current_answer = list(chosen_word.replace(" _ ", ""))
@@ -126,7 +130,6 @@ def update_guesses(letter):
 
     # Iterate through each letter in the chosen word
     for i, chosen_letter in enumerate(chosen_word):
-        print(chosen_word)
         if chosen_letter == letter:  # If the guessed letter matches a letter in the chosen word
             current_answer[i] = letter  # Replace the underscore with the correct letter
             correct_guess = True  # Mark as a correct guess
@@ -134,7 +137,34 @@ def update_guesses(letter):
 # If the guess was correct, update the answer string with the newly revealed letters
     if correct_guess:
         answer_string = " _ ".join(current_answer)  # Rebuild the answer string with the new letters
-        print(f"Correct!")
+        update_answer_display()
     else:
-        print(f"Incorrect! The letter {letter} is not in the word.")
+        print(f"Incorrect! The letter: {letter} is not in the word.")
+        update_guess_display()
 
+    answer_string = " ".join(current_answer)
+
+def update_guess_display():
+    """
+    Updates the displayed word in the `guessbuilder` frame, showing correctly guessed letters
+    and underscores for the remaining letters.
+    """
+    global guessed_letters, guess_spaces, current_answer, guess_limit
+    displaytext =  ""
+    if guess_limit <5:
+        # Iterate over each letter in the chosen word
+        for letter in guessed_letters:
+            displaytext += letter + " "
+        else:  # If the letter has not been guessed, show an underscore
+            displaytext += "_ "
+
+    # Remove the trailing space after the last letter
+    displaytext = displaytext.strip()
+
+    # Update the displayed word in the GUI (the `letter_spaces` label)
+    guess_spaces.config(text=displaytext, font=("Helvetica", 15))  # Update the Tkinter label with the new word display
+    # print(f"Updated Word: {displaytext}")  # For debugging, print the updated word
+
+def update_answer_display():
+    print(f"Correct!")
+    return
