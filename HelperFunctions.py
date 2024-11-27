@@ -220,15 +220,15 @@ def update_guesses(letter):
         if chosen_letter == letter:  # If the guessed letter matches a letter in the chosen word
             current_answer[i] = letter  # Replace the underscore with the correct letter
             correct_guess = True  # Mark as a correct guess
-            guessed_letters.remove(letter) # Remove the correct letter from the guess list to avoid confusion
-
 
     # If the guess was correct, update the answer string with the newly revealed letters
     if correct_guess:
         update_answer_display()
+        guessed_letters.remove(letter) # Remove the correct letter from the guess list to avoid confusion
     else:
         guess_limit += 1 #Increment the guess counter by 1
-        if guess_limit ==7:
+        if guess_limit >=len(HANGMANPICS)-1:
+            update_guess_display()
             game_over()
         else:
             update_guess_display()
@@ -281,11 +281,12 @@ def update_answer_display():
     # print(f"Updated Word: {displaytext}")  # For debugging, print the updated word
 
 def update_gallows():
-    global guess_limit, gallows_text
+    global guess_limit
 
     if guess_limit < len(HANGMANPICS):
-        gallows_text.config(text="", font=("Helvetica", 20))
-        gallows_text.config(text=HANGMANPICS[guess_limit], font=("Courier", 20), anchor="n", justify="left")  # Update the Tkinter label with the new word display
+        gallows_text.config(text="", font=("Helvetica", 20)) # Reset to blank
+        gallows_text.config(text=HANGMANPICS[guess_limit], font=("Courier", 20), anchor="n",
+                            justify="left")  # Update the Tkinter label with the new word display
     else:
         gallows_text.config(text=HANGMANPICS[-1], font=("Courier", 20))
 
@@ -297,6 +298,8 @@ def reset_gallows():
     gallows_text.config(text=HANGMANPICS[0])  # Set to the first (empty) hangman figure
 
 def game_over():
+    gallows_text.config(text=HANGMANPICS[-1], font=("Courier", 20), anchor="n",
+                        justify="left")  # Update the Tkinter label with the new word display
     messagebox.showerror("Killed", f"So close, but so far. The word was {chosen_word}.")
     quitdialogue = messagebox.askyesno("Try again", "Would you like to try again?")
     if quitdialogue:
