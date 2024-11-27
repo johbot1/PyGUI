@@ -4,7 +4,7 @@
 #Desc: Functions to aid in the building of the GUI and
 # address additional functionality where needed
 
-from words import words, choose_word
+from words import words, choose_word, HANGMANPICS
 import tkinter as tk
 
 global answer_string, guess_spaces, guess_letters, guess_limit,letter_spaces
@@ -17,6 +17,7 @@ def start_game():
         Initializes a word, and creates a display of underscores the length of that word to symbolize guesses
         """
     global current_answer, chosen_word
+
     # Pick a word to guess
     chosen_word = choose_word()
     # Initialize current_answer with underscores corresponding to the word length
@@ -29,6 +30,7 @@ def keybuilder(window):
         window: The main window object to attach the keyboard frame to.
     """
     alphabet_buttons = []  # Initialize an empty list to store button objects
+
     # Define the layout of alphabet lines
     lines = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"]  # Letter lines for each row
 
@@ -65,8 +67,8 @@ def guessbuilder(window):
     Args:
         window: The main Tkinter window object to attach the guessed letters frame to.
     """
-
     global guess_spaces
+
     # Create a frame to hold the guessed letters section
     guessed_letters_frame = tk.Frame(window, bd=2, relief="raised")
     guessed_letters_frame.place(relx=0.01, rely=0.1, relwidth=0.5, relheight=0.2)
@@ -76,7 +78,7 @@ def guessbuilder(window):
     guessed_text_label.pack()
 
     # Create and display spaces for guessed letters, initialized as underscores
-    guess_string = ' '.join(["_" for _ in range(6)])  # Generate a string of 6 underscores separated by spaces
+    guess_string = ' '.join(["_" for _ in range(len(HANGMANPICS))])  # Generate a string of 6 underscores separated by spaces
     guess_spaces = tk.Label(guessed_letters_frame, text=guess_string, font=("Helvetica", 15))
     guess_spaces.pack()
 
@@ -106,8 +108,24 @@ def wordbuilder(window):
     letter_spaces.pack()
 
 def gallowsbuilder(window):
+    """
+       Creates a gallows frame to display ASCII art of the hangman.
+
+       Args:
+           window: The main Tkinter window object to attach the gallows frame to.
+       """
+    global gallows_text
+    # Create the gallows frame
     gallows_frame = tk.Frame(window, bg="pink", width=200, height=300, bd=2, relief="raised")
     gallows_frame.place(relx=0.6, rely=0.1)
+
+    # Create a Label widget inside the gallows frame to hold the ASCII art
+    gallows_text = tk.Label(gallows_frame, text="", font=("Courier", 20), anchor="n", justify="left")
+    gallows_text.pack(pady=10)  # Add some padding for spacing
+
+    # Add text to the gallows
+    gallows_text.config(text=HANGMANPICS[0])
+
 
 def update_guesses(letter):
     """
@@ -145,6 +163,7 @@ def update_guesses(letter):
         guess_limit += 1
         print(f"Incorrect! The letter: {letter} is not in the word.")
         update_guess_display()
+        update_gallows()
 
 def update_guess_display():
     """
@@ -190,3 +209,11 @@ def update_answer_display():
     # Update the displayed word in the GUI (the `letter_spaces` label)
     letter_spaces.config(text=displaytext, font=("Helvetica", 15))  # Update the Tkinter label with the new word display
     # print(f"Updated Word: {displaytext}")  # For debugging, print the updated word
+
+def update_gallows():
+    global guess_limit, gallows_text
+    if guess_limit < len(HANGMANPICS):
+        gallows_text.config(text="", font=("Helvetica", 20))
+        gallows_text.config(text=HANGMANPICS[guess_limit], font=("Courier", 20), anchor="n", justify="left")  # Update the Tkinter label with the new word display
+    else:
+        gallows_text.config(text=HANGMANPICS[-1], font=("Courier", 20))
