@@ -10,13 +10,13 @@ from tkinter import messagebox
 
 from words import choose_word, HANGMANPICS
 
-global answer_string, guess_spaces, guess_letters, guess_limit,letter_spaces,chosen_word
+global answer_string, guess_spaces, guess_letters, guess_limit,letter_spaces,chosen_word, playing
 
 guessed_letters = []
 guess_limit = 0
 
 def start_game():
-    global current_answer, chosen_word
+    global current_answer, chosen_word,playing
     """
         Initializes a word, and creates a display of underscores the length of that word to symbolize guesses
         """
@@ -26,6 +26,8 @@ def start_game():
 
     # Initialize current_answer with underscores corresponding to the word length
     current_answer = ['_'] * len(chosen_word)  # For example, if the word is "cloud", this would be ['_', '_', '_', '_', '_']
+
+    playing = True
 
 def reset_game():
     global guessed_letters, chosen_word, guess_limit, current_answer, answer_string
@@ -204,7 +206,7 @@ def update_guesses(letter):
     letter = letter.lower()
 
     # Check if the letter has already been guessed
-    if letter in guessed_letters:
+    if letter in guessed_letters or letter in current_answer:
         messagebox.showerror("Double Dip", f"Appreciate your enthusiasm but you already guessed that letter.")
         return  # Don't do anything if the letter was already guessed
 
@@ -221,10 +223,15 @@ def update_guesses(letter):
             current_answer[i] = letter  # Replace the underscore with the correct letter
             correct_guess = True  # Mark as a correct guess
 
+
+
     # If the guess was correct, update the answer string with the newly revealed letters
     if correct_guess:
         update_answer_display()
         guessed_letters.remove(letter) # Remove the correct letter from the guess list to avoid confusion
+        if all(letter in current_answer for letter in chosen_word):
+            game_win()
+
     else:
         guess_limit += 1 #Increment the guess counter by 1
         if guess_limit >=len(HANGMANPICS)-1:
@@ -276,6 +283,7 @@ def update_answer_display():
     # Remove the trailing space after the last letter
     displaytext = displaytext.strip()
 
+
     # Update the displayed word in the GUI (the `letter_spaces` label)
     letter_spaces.config(text=displaytext, font=("Helvetica", 15))  # Update the Tkinter label with the new word display
     # print(f"Updated Word: {displaytext}")  # For debugging, print the updated word
@@ -298,6 +306,8 @@ def reset_gallows():
     gallows_text.config(text=HANGMANPICS[0])  # Set to the first (empty) hangman figure
 
 def game_over():
+    global playing
+    playing = False
     gallows_text.config(text=HANGMANPICS[-1], font=("Courier", 20), anchor="n",
                         justify="left")  # Update the Tkinter label with the new word display
     messagebox.showerror("Killed", f"So close, but so far. The word was {chosen_word}.")
@@ -308,9 +318,12 @@ def game_over():
         messagebox.showerror("Given Up", f"That's fair. It's alot to weigh on a conscious. Thanks for playing!")
 
 def game_win():
-    messagebox.showerror("Winner!", f"You did it! Congratulations.")
-    quitdialogue = messagebox.askyesno("Try again", "Would you like to try again?")
-    if quitdialogue:
-        reset_game()
-    else:
-        messagebox.showerror("Successful Leave", f"Thanks for playing!")
+    global playing
+    if playing:
+        messagebox.showerror("Winner!", f"You did it! Congratulations.")
+        retrydialogue = messagebox.askyesno("Try again", "Would you like to try again?")
+        if retrydialogue:
+            reset_game()
+        else:
+            messagebox.showerror("Successful Leave", f"Thanks for playing!")
+            playing = False
