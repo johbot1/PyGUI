@@ -7,12 +7,20 @@
 from words import words, choose_word
 import tkinter as tk
 
+global answer_string, guess_spaces, guess_letters, guess_limit,letter_spaces
+
 guessed_letters = []
-chosen_word = choose_word()
-
-global answer_string, guess_spaces, guess_letters, guess_limit
-
 guess_limit = 0
+
+def start_game():
+    """
+        Initializes a word, and creates a display of underscores the length of that word to symbolize guesses
+        """
+    global current_answer, chosen_word
+    # Pick a word to guess
+    chosen_word = choose_word()
+    # Initialize current_answer with underscores corresponding to the word length
+    current_answer = ['_'] * len(chosen_word)  # For example, if the word is "cloud", this would be ['_', '_', '_', '_', '_']
 
 def keybuilder(window):
     """
@@ -108,7 +116,7 @@ def update_guesses(letter):
        Args:
            letter: The letter that was pressed by the user.
        """
-    global guessed_letters, chosen_word, answer_string,current_answer, guess_limit  # Global variables for guessed letters and word
+    global guessed_letters, chosen_word, current_answer, guess_limit  # Global variables for guessed letters and word
 
     #Case sensitivity (It will in fact kill me)
     letter = letter.lower()
@@ -121,10 +129,6 @@ def update_guesses(letter):
     # Add the letter to the guessed letters list
     guessed_letters.append(letter)
 
-
-    # Create a list of characters from the answer string (current state with underscores)
-    current_answer = list(chosen_word.replace(" _ ", ""))
-
     # Flag to check if the guess was correct
     correct_guess = False
 
@@ -134,32 +138,29 @@ def update_guesses(letter):
             current_answer[i] = letter  # Replace the underscore with the correct letter
             correct_guess = True  # Mark as a correct guess
 
-
     # If the guess was correct, update the answer string with the newly revealed letters
     if correct_guess:
-        answer_string = " _ ".join(current_answer)  # Rebuild the answer string with the new letters
         update_answer_display()
     else:
         guess_limit += 1
         print(f"Incorrect! The letter: {letter} is not in the word.")
         update_guess_display()
 
-    answer_string = " ".join(current_answer)
-
 def update_guess_display():
     """
-    Updates the displayed word in the `guessbuilder` frame, showing correctly guessed letters
+    Updates the displayed word in the `guessbuilder` frame, showing incorrectly guessed letters
     and underscores for the remaining letters.
     """
     global guessed_letters, guess_spaces, guess_limit
     displaytext =  ""
-    if guess_limit <5:
-        # Iterate over each letter in the chosen word
-        for letter in guessed_letters:
-            if letter.lower() in guessed_letters:  # If the letter has been guessed, show it
-                displaytext += letter + " "
-            else:  # If the letter has not been guessed, show an underscore
-                displaytext += "_ "
+
+    # Iterate over each letter in guessed_letters and display it
+    for letter in guessed_letters:
+        displaytext += letter + " "
+
+    # Add remaining underscores for incorrect guesses
+    remaining_spaces = 6 - len(guessed_letters)
+    displaytext += "_ " * remaining_spaces
 
     # Remove the trailing space after the last letter
     displaytext = displaytext.strip()
@@ -169,5 +170,23 @@ def update_guess_display():
     # print(f"Updated Word: {displaytext}")  # For debugging, print the updated word
 
 def update_answer_display():
-    print(f"Correct!")
-    return
+    """
+    Updates the displayed word in the `wordbuilder` frame, showing correctly guessed letters
+    and underscores for the remaining letters.
+    """
+    global guessed_letters, letter_spaces, guess_limit
+    displaytext = ""
+
+    # Iterate over each letter in the chosen word
+    for i, letter in enumerate(chosen_word):
+        if current_answer[i] != "_":  # If the letter has been guessed, show it
+            displaytext += current_answer[i] + " "
+        else:  # If the letter has not been guessed, show an underscore
+            displaytext += "_ "
+
+    # Remove the trailing space after the last letter
+    displaytext = displaytext.strip()
+
+    # Update the displayed word in the GUI (the `letter_spaces` label)
+    letter_spaces.config(text=displaytext, font=("Helvetica", 15))  # Update the Tkinter label with the new word display
+    # print(f"Updated Word: {displaytext}")  # For debugging, print the updated word

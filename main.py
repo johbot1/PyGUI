@@ -2,7 +2,7 @@
 #Author: John Botonakis
 #Desc: Holds the main logic for displaying the window and it's pieces
 import tkinter as tk
-from HelperFunctions import keybuilder, guessbuilder, wordbuilder, gallowsbuilder
+from HelperFunctions import *
 
 
 #Main window Setup
@@ -23,6 +23,10 @@ y = (screen_height - window.winfo_height()) // heightdivisor
 
 # Sets window position
 window.geometry(f"+{x}+{y}")
+
+#Begins logic of game before rendering any GUI elements
+start_game()
+
 #Main Title
 title_frame = tk.Frame(window, width=500, height=50)
 title_frame.pack(side=tk.TOP, fill=tk.X)
