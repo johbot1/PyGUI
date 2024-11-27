@@ -76,6 +76,7 @@ def wordbuilder(window):
         Args:
             window: The main Tkinter window object to attach the answer frame to.
         """
+    global answer_string, letter_spaces
 
     # Create a frame to hold the answer display section
     answer_frame = tk.Frame(window, bd=2, relief="raised")
@@ -86,7 +87,7 @@ def wordbuilder(window):
     answer_text_label.pack()
 
     # Generate the answer string with underscores for each letter in the chosen word
-    answer_string = " _ ".join("_" for _ in chosen_word)  # Create underscores based on the word length
+    answer_string = " ".join("_" for _ in chosen_word)  # Create underscores based on the word length
 
     # Display the underscores as the current state of the answer
     letter_spaces = tk.Label(answer_frame, text=answer_string, font=("Helvetica", 15))
@@ -97,11 +98,43 @@ def gallowsbuilder(window):
     gallows_frame.place(relx=0.6, rely=0.1)
 
 def update_guesses(letter):
+    """
+       Handles the letter press event in the game.
+
+       Args:
+           letter: The letter that was pressed by the user.
+       """
+    global answer_string
+
+    #Case sensitivity (It will in fact kill me)
+    letter = letter.lower()
+    chosen_word_lower = chosen_word.lower() # Convert the chosen word to lowercase
+
+    # Check if the letter has already been guessed
+    if letter in guessed_letters:
+        print("You already guessed that letter. Try again.")
+        return  # Don't do anything if the letter was already guessed
+
+    # Add the letter to the guessed letters list
     guessed_letters.append(letter)
-    print(f"Current letter: {letter}")
+
+    # Create a list of characters from the answer string (current state with underscores)
+    current_answer = list(chosen_word.replace(" _ ", ""))
+
+    # Flag to check if the guess was correct
+    correct_guess = False
 
     # Iterate through each letter in the chosen word
     for i, chosen_letter in enumerate(chosen_word):
-        if chosen_letter == letter:  # Check for correct guess
-            # Replace the corresponding underscore with the letter
-            answer_string = answer_string[:i] + letter + answer_string[i+1:]
+        print(chosen_word)
+        if chosen_letter == letter:  # If the guessed letter matches a letter in the chosen word
+            current_answer[i] = letter  # Replace the underscore with the correct letter
+            correct_guess = True  # Mark as a correct guess
+
+# If the guess was correct, update the answer string with the newly revealed letters
+    if correct_guess:
+        answer_string = " _ ".join(current_answer)  # Rebuild the answer string with the new letters
+        print(f"Correct!")
+    else:
+        print(f"Incorrect! The letter {letter} is not in the word.")
+
