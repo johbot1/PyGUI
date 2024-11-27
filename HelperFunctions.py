@@ -7,7 +7,7 @@
 from words import words, choose_word, HANGMANPICS
 import tkinter as tk
 
-global answer_string, guess_spaces, guess_letters, guess_limit,letter_spaces
+global answer_string, guess_spaces, guess_letters, guess_limit,letter_spaces,chosen_word
 
 guessed_letters = []
 guess_limit = 0
@@ -78,7 +78,7 @@ def guessbuilder(window):
     guessed_text_label.pack()
 
     # Create and display spaces for guessed letters, initialized as underscores
-    guess_string = ' '.join(["_" for _ in range(len(HANGMANPICS))])  # Generate a string of 6 underscores separated by spaces
+    guess_string = ' '.join(["_" for _ in range(len(HANGMANPICS)-1)])  # Generate a string of 6 underscores separated by spaces
     guess_spaces = tk.Label(guessed_letters_frame, text=guess_string, font=("Helvetica", 15))
     guess_spaces.pack()
 
@@ -126,7 +126,6 @@ def gallowsbuilder(window):
     # Add text to the gallows
     gallows_text.config(text=HANGMANPICS[0])
 
-
 def update_guesses(letter):
     """
        Handles the letter press event in the game.
@@ -147,6 +146,7 @@ def update_guesses(letter):
     # Add the letter to the guessed letters list
     guessed_letters.append(letter)
 
+
     # Flag to check if the guess was correct
     correct_guess = False
 
@@ -155,6 +155,8 @@ def update_guesses(letter):
         if chosen_letter == letter:  # If the guessed letter matches a letter in the chosen word
             current_answer[i] = letter  # Replace the underscore with the correct letter
             correct_guess = True  # Mark as a correct guess
+            guessed_letters.remove(letter)
+
 
     # If the guess was correct, update the answer string with the newly revealed letters
     if correct_guess:
@@ -170,7 +172,7 @@ def update_guess_display():
     Updates the displayed word in the `guessbuilder` frame, showing incorrectly guessed letters
     and underscores for the remaining letters.
     """
-    global guessed_letters, guess_spaces, guess_limit
+    global guessed_letters, guess_spaces, guess_limit, chosen_word
     displaytext =  ""
 
     # Iterate over each letter in guessed_letters and display it
@@ -178,7 +180,7 @@ def update_guess_display():
         displaytext += letter + " "
 
     # Add remaining underscores for incorrect guesses
-    remaining_spaces = 6 - len(guessed_letters)
+    remaining_spaces = (len(HANGMANPICS)-1) - len(guessed_letters)
     displaytext += "_ " * remaining_spaces
 
     # Remove the trailing space after the last letter
