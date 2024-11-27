@@ -108,7 +108,7 @@ def update_guesses(letter):
        Args:
            letter: The letter that was pressed by the user.
        """
-    global guessed_letters, chosen_word, answer_string,current_answer  # Global variables for guessed letters and word
+    global guessed_letters, chosen_word, answer_string,current_answer, guess_limit  # Global variables for guessed letters and word
 
     #Case sensitivity (It will in fact kill me)
     letter = letter.lower()
@@ -117,10 +117,10 @@ def update_guesses(letter):
     if letter in guessed_letters:
         print("You already guessed that letter. Try again.")
         return  # Don't do anything if the letter was already guessed
-    else:
-        # Add the letter to the guessed letters list
-        guessed_letters.append(letter)
-        update_guesses(letter)
+
+    # Add the letter to the guessed letters list
+    guessed_letters.append(letter)
+
 
     # Create a list of characters from the answer string (current state with underscores)
     current_answer = list(chosen_word.replace(" _ ", ""))
@@ -134,11 +134,13 @@ def update_guesses(letter):
             current_answer[i] = letter  # Replace the underscore with the correct letter
             correct_guess = True  # Mark as a correct guess
 
-# If the guess was correct, update the answer string with the newly revealed letters
+
+    # If the guess was correct, update the answer string with the newly revealed letters
     if correct_guess:
         answer_string = " _ ".join(current_answer)  # Rebuild the answer string with the new letters
         update_answer_display()
     else:
+        guess_limit += 1
         print(f"Incorrect! The letter: {letter} is not in the word.")
         update_guess_display()
 
@@ -149,14 +151,15 @@ def update_guess_display():
     Updates the displayed word in the `guessbuilder` frame, showing correctly guessed letters
     and underscores for the remaining letters.
     """
-    global guessed_letters, guess_spaces, current_answer, guess_limit
+    global guessed_letters, guess_spaces, guess_limit
     displaytext =  ""
     if guess_limit <5:
         # Iterate over each letter in the chosen word
         for letter in guessed_letters:
-            displaytext += letter + " "
-        else:  # If the letter has not been guessed, show an underscore
-            displaytext += "_ "
+            if letter.lower() in guessed_letters:  # If the letter has been guessed, show it
+                displaytext += letter + " "
+            else:  # If the letter has not been guessed, show an underscore
+                displaytext += "_ "
 
     # Remove the trailing space after the last letter
     displaytext = displaytext.strip()
