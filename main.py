@@ -44,6 +44,8 @@ guessbuilder(window)
 
 #Keys
 keybuilder(window)
+add_reset_button(window)
+add_info_button(window)
 
 if __name__ == '__main__':
     window.mainloop()

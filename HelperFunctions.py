@@ -4,8 +4,11 @@
 #Desc: Functions to aid in the building of the GUI and
 # address additional functionality where needed
 
-from words import words, choose_word, HANGMANPICS
 import tkinter as tk
+import tkinter.messagebox
+from tkinter import messagebox
+
+from words import choose_word, HANGMANPICS
 
 global answer_string, guess_spaces, guess_letters, guess_limit,letter_spaces,chosen_word
 
@@ -13,15 +16,57 @@ guessed_letters = []
 guess_limit = 0
 
 def start_game():
+    global current_answer, chosen_word
     """
         Initializes a word, and creates a display of underscores the length of that word to symbolize guesses
         """
-    global current_answer, chosen_word
 
     # Pick a word to guess
     chosen_word = choose_word()
+
     # Initialize current_answer with underscores corresponding to the word length
     current_answer = ['_'] * len(chosen_word)  # For example, if the word is "cloud", this would be ['_', '_', '_', '_', '_']
+
+def reset_game():
+    global guessed_letters, chosen_word, guess_limit, current_answer, answer_string
+    """
+        Resets the game by clearing guessed letters, selecting a new word,
+        and updating the displays to reflect a fresh start.
+        """
+# Reset the guessed letters list and the guess limit
+    guessed_letters = []
+    guess_limit = 0
+
+    # Select a new word
+    chosen_word = choose_word()
+
+    # Reset the current answer (underscores for each letter in the chosen word)
+    current_answer = ["_" for _ in chosen_word]
+    answer_string = " ".join(current_answer)
+
+    # Update the word display (clear underscores)
+    update_answer_display()
+
+    # Reset the guessed letters display
+    update_guess_display()
+
+    # Reset the gallows display
+    reset_gallows()
+
+def information():
+    """
+        Shows an informational popup to the user.
+        """
+    info1 = messagebox.askyesno("Help", "Welcome to Hangman! Have you played before?")
+    if info1:
+        messagebox.showinfo("Help", "Awesome! Have fun playing.")
+    else:
+        messagebox.showinfo("Help", "The goal of the game is to guess the word in the ANSWER section using"
+                                    " individual letters to pice together the word!")
+        messagebox.showinfo("Help", "You have 7 guesses. If you guess the word before he gets hanged, "
+                                    "you win! Otherwise, you've condemned him to death.")
+        messagebox.showinfo("Help", "Use the Restart Game button to restart the game. Have fun!")
+
 
 def keybuilder(window):
     """
@@ -61,13 +106,13 @@ def keybuilder(window):
             # print(f'{button_name} "has been created!') #Debugging help
 
 def guessbuilder(window):
+    global guess_spaces
     """
     Creates a frame to display guessed letters.
 
     Args:
         window: The main Tkinter window object to attach the guessed letters frame to.
     """
-    global guess_spaces
 
     # Create a frame to hold the guessed letters section
     guessed_letters_frame = tk.Frame(window, bd=2, relief="raised")
@@ -83,6 +128,7 @@ def guessbuilder(window):
     guess_spaces.pack()
 
 def wordbuilder(window):
+    global answer_string, letter_spaces
     """
         Creates a frame to display the current answer in the hangman game, showing
         the word with underscores for unguessed letters.
@@ -90,7 +136,6 @@ def wordbuilder(window):
         Args:
             window: The main Tkinter window object to attach the answer frame to.
         """
-    global answer_string, letter_spaces
 
     # Create a frame to hold the answer display section
     answer_frame = tk.Frame(window, bd=2, relief="raised")
@@ -108,15 +153,15 @@ def wordbuilder(window):
     letter_spaces.pack()
 
 def gallowsbuilder(window):
+    global gallows_text
     """
        Creates a gallows frame to display ASCII art of the hangman.
 
        Args:
            window: The main Tkinter window object to attach the gallows frame to.
        """
-    global gallows_text
     # Create the gallows frame
-    gallows_frame = tk.Frame(window, bg="pink", width=200, height=300, bd=2, relief="raised")
+    gallows_frame = tk.Frame(window, width=200, height=300, bd=2, relief="raised")
     gallows_frame.place(relx=0.6, rely=0.1)
 
     # Create a Label widget inside the gallows frame to hold the ASCII art
@@ -126,21 +171,41 @@ def gallowsbuilder(window):
     # Add text to the gallows
     gallows_text.config(text=HANGMANPICS[0])
 
+def add_reset_button(window):
+    """
+    Adds a reset button to the GUI that restarts the game when clicked.
+    """
+    xpos = 0.88
+    ypos = 0.94
+    reset_button = tk.Button(window, text="Reset Game", font=("Helvetica", 15), command=reset_game)
+    reset_button.place(relx=xpos, rely=ypos, anchor="center")  # Adjust placement as needed
+
+def add_info_button(window):
+    """
+       Adds an information button to the GUI that explains the game when clicked.
+       """
+    xpos = 0.04
+    ypos = 0.94
+    reset_button = tk.Button(window, text="?", font=("Helvetica", 15), command=information)
+    reset_button.place(relx=xpos, rely=ypos, anchor="center")
+
+
+
 def update_guesses(letter):
+    global guessed_letters, chosen_word, current_answer, guess_limit  # Global variables for guessed letters and word
     """
        Handles the letter press event in the game.
 
        Args:
            letter: The letter that was pressed by the user.
        """
-    global guessed_letters, chosen_word, current_answer, guess_limit  # Global variables for guessed letters and word
 
     #Case sensitivity (It will in fact kill me)
     letter = letter.lower()
 
     # Check if the letter has already been guessed
     if letter in guessed_letters:
-        print("You already guessed that letter. Try again.")
+        messagebox.showerror("Double Dip", f"Appreciate your enthusiasm but you already guessed that letter.")
         return  # Don't do anything if the letter was already guessed
 
     # Add the letter to the guessed letters list
@@ -155,24 +220,27 @@ def update_guesses(letter):
         if chosen_letter == letter:  # If the guessed letter matches a letter in the chosen word
             current_answer[i] = letter  # Replace the underscore with the correct letter
             correct_guess = True  # Mark as a correct guess
-            guessed_letters.remove(letter)
+            guessed_letters.remove(letter) # Remove the correct letter from the guess list to avoid confusion
 
 
     # If the guess was correct, update the answer string with the newly revealed letters
     if correct_guess:
         update_answer_display()
     else:
-        guess_limit += 1
-        print(f"Incorrect! The letter: {letter} is not in the word.")
-        update_guess_display()
-        update_gallows()
+        guess_limit += 1 #Increment the guess counter by 1
+        if guess_limit ==7:
+            game_over()
+        else:
+            update_guess_display()
+            update_gallows()
 
 def update_guess_display():
+    global guessed_letters, guess_spaces, guess_limit, chosen_word
     """
     Updates the displayed word in the `guessbuilder` frame, showing incorrectly guessed letters
     and underscores for the remaining letters.
     """
-    global guessed_letters, guess_spaces, guess_limit, chosen_word
+
     displaytext =  ""
 
     # Iterate over each letter in guessed_letters and display it
@@ -191,11 +259,11 @@ def update_guess_display():
     # print(f"Updated Word: {displaytext}")  # For debugging, print the updated word
 
 def update_answer_display():
+    global guessed_letters, letter_spaces, guess_limit
     """
     Updates the displayed word in the `wordbuilder` frame, showing correctly guessed letters
     and underscores for the remaining letters.
     """
-    global guessed_letters, letter_spaces, guess_limit
     displaytext = ""
 
     # Iterate over each letter in the chosen word
@@ -214,8 +282,32 @@ def update_answer_display():
 
 def update_gallows():
     global guess_limit, gallows_text
+
     if guess_limit < len(HANGMANPICS):
         gallows_text.config(text="", font=("Helvetica", 20))
         gallows_text.config(text=HANGMANPICS[guess_limit], font=("Courier", 20), anchor="n", justify="left")  # Update the Tkinter label with the new word display
     else:
         gallows_text.config(text=HANGMANPICS[-1], font=("Courier", 20))
+
+def reset_gallows():
+    global gallows_text
+    """
+    Resets the gallows figure to its initial state (no drawing).
+    """
+    gallows_text.config(text=HANGMANPICS[0])  # Set to the first (empty) hangman figure
+
+def game_over():
+    messagebox.showerror("Killed", f"So close, but so far. The word was {chosen_word}.")
+    quitdialogue = messagebox.askyesno("Try again", "Would you like to try again?")
+    if quitdialogue:
+        reset_game()
+    else:
+        messagebox.showerror("Given Up", f"That's fair. It's alot to weigh on a conscious. Thanks for playing!")
+
+def game_win():
+    messagebox.showerror("Winner!", f"You did it! Congratulations.")
+    quitdialogue = messagebox.askyesno("Try again", "Would you like to try again?")
+    if quitdialogue:
+        reset_game()
+    else:
+        messagebox.showerror("Successful Leave", f"Thanks for playing!")
