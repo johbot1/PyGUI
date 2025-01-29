@@ -14,7 +14,7 @@ guessed_letters = []
 guess_limit = 0
 
 
-# Start_game:
+# start_game:
 # Initializes the game logic by choosing a word for the player to guess,
 # then generating an answer variable that is a set amount of underscores
 # equal to the word length. After, it begins the playing loop.
@@ -72,7 +72,7 @@ def keybuilder(window):
     frame_height = 150
     initial_x = 0.01
     initial_y = 0.7
-    x_delta = 0.04
+    x_delta = 0.03
     y_delta = 0.08
 
     # Creating the frames using the 'lines' list

@@ -3,9 +3,20 @@
 # Desc: Holds the main logic for displaying the window and it's pieces
 from HelperFunctions import *
 
+
+#FEEDBACK
+#Add .gitignore
+#FIX width
+#Ask for name before displaying anything!
+#Button Clickability
+#QUit Button
+#When letter is selected, turn dark/unclickable (Visual indication that it's no longer clickable)
+#Exit program when DO not want to play again
+#
+
 # Main window Setup
 window = tk.Tk()
-window.geometry('600x600')
+window.geometry('900x600')
 window.title('Hangman!')
 window.resizable(False, False)
 
