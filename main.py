@@ -5,27 +5,28 @@ from HelperFunctions import *
 
 
 #FEEDBACK
-#Add .gitignore
-#FIX width
-#Ask for name before displaying anything!
-#Button Clickability
-#QUit Button
-#When letter is selected, turn dark/unclickable (Visual indication that it's no longer clickable)
-#Exit program when DO not want to play again
-#
+# DONE      Add .gitignore
+# DONE      FIX width
+#           Ask for name before displaying anything!
+#           Button Clickability
+#           QUit Button
+#           When letter is selected, turn dark/unclickable (Visual indication that it's no longer clickable)
+#           Exit program when DO not want to play again
+
 
 # Main window Setup
 window = tk.Tk()
-window.geometry('900x600')
+window.geometry('600x600')
 window.title('Hangman!')
 window.resizable(False, False)
+window.focus_force()
 
 # Centering the window to the screen
 screen_width = window.winfo_screenwidth()
 screen_height = window.winfo_screenheight()
 
 # Calculate window position
-widthdivisor = 2  # Found this to be good size for the dividing the width to keep window centered
+widthdivisor = 3  # Found this to be good size for the dividing the width to keep window centered
 heightdivisor = 6  # Found this to be good size for the dividing the height to keep window centered
 x = (screen_width - window.winfo_width()) // widthdivisor
 y = (screen_height - window.winfo_height()) // heightdivisor

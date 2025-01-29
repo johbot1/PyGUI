@@ -21,6 +21,8 @@ guess_limit = 0
 def start_game():
     global current_answer, chosen_word, playing
 
+    name = messagebox.askquestion("Name?","What is your name?")
+    messagebox.showinfo("Welcome!", "Welcome to Hangman, {name}")
     chosen_word = choose_word()
     current_answer = ['_'] * len(
         chosen_word)  # For example, if the word is "cloud", this would be ['_', '_', '_', '_', '_']
@@ -69,7 +71,7 @@ def keybuilder(window):
 
     # Magic Numbers for Frame positioning and scale.
     frame_width = 580
-    frame_height = 150
+    frame_height = 200
     initial_x = 0.01
     initial_y = 0.7
     x_delta = 0.03
@@ -86,8 +88,8 @@ def keybuilder(window):
     for frame, letter_line in zip(alphabet_frames, lines):
         for letter in letter_line:
             button_name = f"button_{letter.lower()}"
-            button = tk.Button(frame, text=letter, width=5, command=lambda letter=letter: update_guesses(letter))
-            button.pack(side=tk.LEFT, padx=5, pady=5)
+            button = tk.Button(frame, text=letter, width=2, command=lambda letter=letter: update_guesses(letter))
+            button.pack(side=tk.LEFT, padx=2, pady=5)
             alphabet_buttons.append(button)
             button_name = button
             alphabet_buttons.append(button_name)
