@@ -4,14 +4,16 @@
 # address additional functionality where needed
 
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, simpledialog
 
 from words import choose_word, HANGMANPICS
 
-global answer_string, guess_spaces, guess_letters, guess_limit, letter_spaces, chosen_word, playing
+global answer_string, guess_spaces, guess_letters, guess_limit, letter_spaces, chosen_word, playing, name
 
 guessed_letters = []
 guess_limit = 0
+
+name = ""
 
 
 # start_game:
@@ -19,10 +21,21 @@ guess_limit = 0
 # then generating an answer variable that is a set amount of underscores
 # equal to the word length. After, it begins the playing loop.
 def start_game():
-    global current_answer, chosen_word, playing
+    global current_answer, chosen_word, playing, name
 
-    name = messagebox.askquestion("Name?","What is your name?")
-    messagebox.showinfo("Welcome!", "Welcome to Hangman, {name}")
+    # Ask for name
+    asking_for_name = True
+    while asking_for_name:
+        name_input = simpledialog.askstring("Name", "Enter your name")
+        if name_input is None or name_input.isalpha()==False:
+            messagebox.showinfo("Name", "Please enter your name with only letters "
+                                        "(No spaces, numbers, or special characters.)")
+        else:
+            asking_for_name = False
+            name = name_input
+            messagebox.showinfo("Welcome!", f"Welcome to Hangman, {name_input}")
+            information()
+
     chosen_word = choose_word()
     current_answer = ['_'] * len(
         chosen_word)  # For example, if the word is "cloud", this would be ['_', '_', '_', '_', '_']
@@ -50,7 +63,8 @@ def reset_game():
 # Information:
 # Shows an informational popup sequence to the user to explain the game of Hangman
 def information():
-    info1 = messagebox.askyesno("Help", "Welcome to Hangman! Have you played before?")
+    global name
+    info1 = messagebox.askyesno("Help", f"Say, {name}, have you played Hangman before?")
     if info1:
         messagebox.showinfo("Help", "Awesome! Have fun playing.")
     else:
