@@ -45,7 +45,7 @@ def start_game():
     playing = True
 
 
-# Reset_game:
+# reset_game:
 # Resets the currently played game by clearing out the previously
 # guessed letters, selecting a new goal word, and updates each display
 # area to its original view.
@@ -65,7 +65,7 @@ def reset_game():
         button.config(state=tk.NORMAL)
 
 
-# Information:
+# information:
 # Shows an informational popup sequence to the user to explain the game of Hangman
 def information():
     global name
@@ -80,7 +80,7 @@ def information():
         messagebox.showinfo("Help", "Use the Restart Game button to restart the game. Have fun!")
 
 
-# Keybuilder:
+# keybuilder:
 # Creates the frames that hold the keys to guess with.
 # It takes in a 'window' object, so the frames have a home to stick to.
 def keybuilder(window):
@@ -123,7 +123,7 @@ def keybuilder(window):
     return buttons
 
 
-# Guessbuilder:
+# guessbuilder:
 # Creates a frame to hold the guessed letters so the player
 # can see how many guesses they have left before losing.
 # It takes in a 'window' object, so the frame will have a home to stick to.
@@ -145,7 +145,7 @@ def guessbuilder(window):
     guess_spaces.pack()
 
 
-# Wordbuilder:
+# wordbuilder:
 # Creates a frame to hold the current answer as well as any letters
 # that are correct.
 # It takes in a 'window' object, so the frame will have a home to stick to.
@@ -163,7 +163,7 @@ def wordbuilder(window):
     letter_spaces.pack()
 
 
-# Gallowsbuilder:
+# gallowsbuilder:
 # Creates a frame to hold the ascii art of the hangman
 # It takes in a 'window' object, so the frame will have a home to stick to.
 def gallowsbuilder(window):
@@ -176,7 +176,7 @@ def gallowsbuilder(window):
     gallows_text.config(text=HANGMANPICS[0])
 
 
-# Add_reset_button:
+# add_reset_button:
 # Implements a button to reset the GUI when called on
 # It takes in a 'window' object, so the frame will have a home to stick to.
 def add_reset_button(window):
@@ -186,7 +186,7 @@ def add_reset_button(window):
     reset_button.place(relx=xpos, rely=ypos, anchor="center")
 
 
-# Add_info_button:
+# add_info_button:
 # Implements a button that displays the informational popup sequence
 # It takes in a 'window' object, so the frame will have a home to stick to.
 def add_info_button(window):
@@ -195,7 +195,8 @@ def add_info_button(window):
     reset_button = tk.Button(window, text="?", font=("Helvetica", 15), command=information)
     reset_button.place(relx=xpos, rely=ypos, anchor="center")
 
-
+# add_quit_button
+# Implements a button that will quit the program on command.
 def add_quit_button(window):
     xpos = 0.88  # Adjust position as needed
     ypos = 0.88
@@ -203,7 +204,7 @@ def add_quit_button(window):
     quit_button.place(relx=xpos, rely=ypos, anchor="center")
 
 
-# Update_guesses:
+# update_guesses:
 # Handles any event regarding guesses and letter buttons within the game.
 def update_guesses(letter):
     global guessed_letters, chosen_word, current_answer, guess_limit
@@ -248,7 +249,7 @@ def update_guesses(letter):
             update_gallows()
 
 
-# Update_guess_display:
+# update_guess_display:
 # Updates the guess_display with any incorrect guesses and remaining guess spaces
 def update_guess_display():
     global guessed_letters, guess_spaces, guess_limit, chosen_word
@@ -265,7 +266,7 @@ def update_guess_display():
     # print(f"Updated Word: {displaytext}")  # For debugging, print the updated word
 
 
-# Update_answer_display:
+# update_answer_display:
 # Updates the answer_display with any correct guesses and remaining letter spaces
 def update_answer_display():
     global guessed_letters, letter_spaces, guess_limit
@@ -284,7 +285,7 @@ def update_answer_display():
     # print(f"Updated Word: {displaytext}")  # For debugging, print the updated word
 
 
-# Update_gallows:
+# update_gallows:
 # Updates the gallows display with the current art of the hangman state
 # This acts as immediate visual feedback on the player's progress
 def update_gallows():
@@ -298,7 +299,7 @@ def update_gallows():
         gallows_text.config(text=HANGMANPICS[-1], font=("Courier", 20))
 
 
-# Reset_gallows:
+# reset_gallows:
 # Resets the gallows art frame to its default state (empty)
 def reset_gallows():
     global gallows_text
@@ -306,7 +307,7 @@ def reset_gallows():
     gallows_text.config(text=HANGMANPICS[0])
 
 
-# Game_over:
+# game_over:
 # Handles behaviour for when the game is lost by the player
 def game_over():
     global playing
@@ -321,7 +322,7 @@ def game_over():
         playing = False
 
 
-# Game_win:
+# game_win:
 # Handles behaviour for when the game is won by the player
 def game_win():
     global playing
