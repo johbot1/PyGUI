@@ -14,7 +14,7 @@ keyboard_buttons = []
 buttons = {}
 guessed_letters = []
 guess_limit = 0
-window = None #To be assigned by main.py when initialized
+window = None  #To be assigned by main.py when initialized
 name = ""
 
 
@@ -94,6 +94,7 @@ def keybuilder(window):
     initial_y = 0.7
     x_delta = 0.03
     y_delta = 0.08
+    key_color = 'lightblue'
 
     # Initialize button list
     keyboard_buttons = []
@@ -101,7 +102,7 @@ def keybuilder(window):
     # Creating the frames using the 'lines' list
     alphabet_frames = []
     for i in range(3):
-        frame = tk.Frame(window, width=frame_width, height=frame_height)
+        frame = tk.Frame(window, width=frame_width, height=frame_height, background=key_color)
         frame.place(relx=initial_x + i * x_delta, rely=initial_y + i * y_delta)
         alphabet_frames.append(frame)
 
@@ -112,7 +113,8 @@ def keybuilder(window):
                 frame,
                 text=letter,
                 width=2,
-                foreground="red",
+                foreground="blue",
+                background=key_color,
                 command=lambda l=letter: update_guesses(l),
             )
             button.pack(side=tk.LEFT, padx=2, pady=5)
@@ -130,10 +132,12 @@ def keybuilder(window):
 def guessbuilder(window):
     global guess_spaces
     font_size = 20
+    guess_color = 'lightyellow'
 
-    guessed_letters_frame = tk.Frame(window, bd=2, relief="raised")
+    guessed_letters_frame = tk.Frame(window, bd=2, relief="raised", background=guess_color)
     guessed_letters_frame.place(relx=0.01, rely=0.1, relwidth=0.5, relheight=0.2)
-    guessed_text_label = tk.Label(guessed_letters_frame, text="Guesses: ", font=("Helvetica", font_size))
+    guessed_text_label = tk.Label(guessed_letters_frame, text="Guesses: ", font=("Helvetica", font_size),
+                                  background=guess_color)
     guessed_text_label.pack()
 
     # This creates the spaces for each of the guessed letters, with each "_" representing a guess
@@ -141,7 +145,8 @@ def guessbuilder(window):
     # run out of guesses, and the game is over.
     guess_string = ' '.join(
         ["_" for _ in range(len(HANGMANPICS) - 1)])
-    guess_spaces = tk.Label(guessed_letters_frame, text=guess_string, font=("Helvetica", font_size))
+    guess_spaces = tk.Label(guessed_letters_frame, text=guess_string, font=("Helvetica", font_size),
+                            background=guess_color)
     guess_spaces.pack()
 
 
@@ -151,15 +156,16 @@ def guessbuilder(window):
 # It takes in a 'window' object, so the frame will have a home to stick to.
 def wordbuilder(window):
     global answer_string, letter_spaces
+    word_color = 'lightgreen'
     font_size = 20
-    answer_frame = tk.Frame(window, bd=2, relief="raised")
+    answer_frame = tk.Frame(window, bd=2, relief="raised", background=word_color)
     answer_frame.place(relx=0.01, rely=0.4, relwidth=0.5, relheight=0.2)
-    answer_text_label = tk.Label(answer_frame, text="Answer:", font=("Helvetica", font_size))
+    answer_text_label = tk.Label(answer_frame, text="Answer:", font=("Helvetica", font_size), background=word_color)
     answer_text_label.pack()
 
     # Creates and displays a length of underscores equal to the chosen_word length
     answer_string = " ".join("_" for _ in chosen_word)
-    letter_spaces = tk.Label(answer_frame, text=answer_string, font=("Helvetica", font_size))
+    letter_spaces = tk.Label(answer_frame, text=answer_string, font=("Helvetica", font_size), background=word_color)
     letter_spaces.pack()
 
 
@@ -181,7 +187,7 @@ def gallowsbuilder(window):
 # It takes in a 'window' object, so the frame will have a home to stick to.
 def add_reset_button(window):
     xpos = 0.88
-    ypos = 0.94
+    ypos = 0.95
     reset_button = tk.Button(window, text="Reset Game", font=("Helvetica", 15), command=reset_game)
     reset_button.place(relx=xpos, rely=ypos, anchor="center")
 
@@ -191,7 +197,7 @@ def add_reset_button(window):
 # It takes in a 'window' object, so the frame will have a home to stick to.
 def add_info_button(window):
     xpos = 0.04
-    ypos = 0.94
+    ypos = 0.95
     reset_button = tk.Button(window, text="?", font=("Helvetica", 15), command=information)
     reset_button.place(relx=xpos, rely=ypos, anchor="center")
 

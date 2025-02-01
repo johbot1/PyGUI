@@ -22,6 +22,7 @@ window = tk.Tk()
 window.geometry('600x600')
 window.title('Hangman!')
 window.resizable(False, False)
+window.config(background='lightblue')
 window.focus_force()
 HelperFunctions.window = window
 
@@ -44,9 +45,9 @@ window.geometry(f"+{x}+{y}")
 start_game()
 
 # Main Title
-title_frame = tk.Frame(window, width=500, height=50)
+title_frame = tk.Frame(window, width=500, height=50,background='lightblue')
 title_frame.pack(side=tk.TOP, fill=tk.X)
-title_label = tk.Label(title_frame, text="HANGMAN", font=("Helvetica", 20))
+title_label = tk.Label(title_frame, text="HANGMAN", font=("Helvetica", 20),background='lightblue')
 title_label.pack(pady=10)
 
 # Hangman Frame
