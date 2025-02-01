@@ -198,7 +198,7 @@ def add_info_button(window):
 # add_quit_button
 # Implements a button that will quit the program on command.
 def add_quit_button(window):
-    xpos = 0.88  # Adjust position as needed
+    xpos = 0.88
     ypos = 0.88
     quit_button = tk.Button(window, text="Quit", font=("Helvetica", 15), command=window.quit)
     quit_button.place(relx=xpos, rely=ypos, anchor="center")
@@ -334,3 +334,4 @@ def game_win():
         else:
             messagebox.showerror("Successful Leave", f"Thanks for playing!")
             playing = False
+
