@@ -196,6 +196,13 @@ def add_info_button(window):
     reset_button.place(relx=xpos, rely=ypos, anchor="center")
 
 
+def add_quit_button(window):
+    xpos = 0.88  # Adjust position as needed
+    ypos = 0.88
+    quit_button = tk.Button(window, text="Quit", font=("Helvetica", 15), command=window.quit)
+    quit_button.place(relx=xpos, rely=ypos, anchor="center")
+
+
 # Update_guesses:
 # Handles any event regarding guesses and letter buttons within the game.
 def update_guesses(letter):

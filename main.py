@@ -11,7 +11,7 @@ from HelperFunctions import *
 # DONE      FIX width
 # DONE      Ask for name before displaying anything!
 #           Button Clickability
-#           QUit Button
+# DONE      QUit Button
 # DONE      When letter is selected, turn dark/unclickable (Visual indication that it's no longer clickable)
 #           Exit program when DO not want to play again
 
@@ -60,6 +60,7 @@ guessbuilder(window)
 keybuilder(window)
 add_reset_button(window)
 add_info_button(window)
+add_quit_button(window)
 
 if __name__ == '__main__':
     window.mainloop()
