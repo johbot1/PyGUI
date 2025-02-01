@@ -3,6 +3,7 @@
 # Desc: Holds the main logic for displaying the window and it's pieces
 from tkinter import simpledialog
 
+import HelperFunctions
 from HelperFunctions import *
 
 
@@ -13,7 +14,7 @@ from HelperFunctions import *
 #           Button Clickability
 # DONE      QUit Button
 # DONE      When letter is selected, turn dark/unclickable (Visual indication that it's no longer clickable)
-#           Exit program when DO not want to play again
+# DONE      Exit program when DO not want to play again
 
 
 # Main window Setup
@@ -22,6 +23,7 @@ window.geometry('600x600')
 window.title('Hangman!')
 window.resizable(False, False)
 window.focus_force()
+HelperFunctions.window = window
 
 # Centering the window to the screen
 screen_width = window.winfo_screenwidth()
@@ -61,6 +63,8 @@ keybuilder(window)
 add_reset_button(window)
 add_info_button(window)
 add_quit_button(window)
+
+
 
 if __name__ == '__main__':
     window.mainloop()

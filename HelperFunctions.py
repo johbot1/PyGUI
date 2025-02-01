@@ -14,7 +14,7 @@ keyboard_buttons = []
 buttons = {}
 guessed_letters = []
 guess_limit = 0
-
+window = None #To be assigned by main.py when initialized
 name = ""
 
 
@@ -195,6 +195,7 @@ def add_info_button(window):
     reset_button = tk.Button(window, text="?", font=("Helvetica", 15), command=information)
     reset_button.place(relx=xpos, rely=ypos, anchor="center")
 
+
 # add_quit_button
 # Implements a button that will quit the program on command.
 def add_quit_button(window):
@@ -320,6 +321,7 @@ def game_over():
     else:
         messagebox.showerror("Given Up", f"That's fair. It's alot to weigh on a conscious. Thanks for playing!")
         playing = False
+        window.quit()
 
 
 # game_win:
@@ -334,4 +336,4 @@ def game_win():
         else:
             messagebox.showerror("Successful Leave", f"Thanks for playing!")
             playing = False
-
+            window.quit()
