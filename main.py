@@ -12,7 +12,7 @@ from HelperFunctions import *
 # DONE      Ask for name before displaying anything!
 #           Button Clickability
 #           QUit Button
-#           When letter is selected, turn dark/unclickable (Visual indication that it's no longer clickable)
+# DONE      When letter is selected, turn dark/unclickable (Visual indication that it's no longer clickable)
 #           Exit program when DO not want to play again
 
 
