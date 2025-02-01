@@ -1,10 +1,6 @@
 # Main.py
 # Author: John Botonakis
 # Desc: Holds the main logic for displaying the window and it's pieces
-from tkinter import simpledialog
-
-import HelperFunctions
-from HelperFunctions import *
 
 
 #FEEDBACK
@@ -16,6 +12,9 @@ from HelperFunctions import *
 # DONE      When letter is selected, turn dark/unclickable (Visual indication that it's no longer clickable)
 # DONE      Exit program when DO not want to play again
 
+import HelperFunctions
+from HelperFunctions import *
+from tkinter import simpledialog
 
 # Main window Setup
 window = tk.Tk()

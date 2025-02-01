@@ -34,8 +34,8 @@ def start_game():
                                         "(No spaces, numbers, or special characters.)")
         else:
             asking_for_name = False
-            name = name_input
-            messagebox.showinfo("Welcome!", f"Welcome to Hangman, {name_input}")
+            name = name_input.capitalize()
+            messagebox.showinfo("Welcome!", f"Welcome to Hangman, {name}")
             information()
 
     chosen_word = choose_word()
@@ -61,8 +61,8 @@ def reset_game():
     update_guess_display()
     reset_gallows()
     # Re-enable all letter buttons
-    for button in buttons.values():
-        button.config(state=tk.NORMAL)
+    for i in buttons:
+        buttons[i].config(state=tk.NORMAL)
 
 
 # information:
@@ -310,7 +310,6 @@ def update_gallows():
 # Resets the gallows art frame to its default state (empty)
 def reset_gallows():
     global gallows_text
-
     gallows_text.config(text=HANGMANPICS[0])
 
 
