@@ -4,13 +4,8 @@
 
 
 #FEEDBACK
-# DONE      Add .gitignore
-# DONE      FIX width
-# DONE      Ask for name before displaying anything!
-#           Button Clickability
-# DONE      QUit Button
-# DONE      When letter is selected, turn dark/unclickable (Visual indication that it's no longer clickable)
-# DONE      Exit program when DO not want to play again
+#FIXED Decorate readme commands
+#When completing word, finish the word before congrats
 
 import HelperFunctions
 from HelperFunctions import *
