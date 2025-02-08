@@ -5,10 +5,12 @@
 
 import tkinter as tk
 from tkinter import messagebox, simpledialog
-
 from words import choose_word, HANGMANPICS
+import time
 
-global answer_string, guess_spaces, guess_letters, guess_limit, letter_spaces, chosen_word, playing, name, keyboard_buttons, buttons
+global answer_string, guess_spaces, guess_letters, \
+    guess_limit, letter_spaces, chosen_word, playing,\
+    name, keyboard_buttons, buttons, window
 
 keyboard_buttons = []
 buttons = {}
@@ -214,7 +216,7 @@ def add_quit_button(window):
 # update_guesses:
 # Handles any event regarding guesses and letter buttons within the game.
 def update_guesses(letter):
-    global guessed_letters, chosen_word, current_answer, guess_limit
+    global guessed_letters, guess_limit
 
     # Case sensitivity is important (It will in fact kill me)
     letter = letter.lower()
@@ -233,19 +235,16 @@ def update_guesses(letter):
         if chosen_letter == letter:
             current_answer[i] = letter
             correct_guess = True
+    update_answer_display()
 
     # If the flag is set to "True", update each display and proceed.
     # If this was the last letter or the last guess and it's successful,
     # proceed to game_win.
     if correct_guess:
         update_answer_display()
-        guessed_letters.remove(letter)
-        if all(letter in current_answer for letter in chosen_word):
-            game_win()
-
     # If the guess is incorrect, the flag stays "False", and the
     # guess limit is increased by 1. If this was the last guess and
-    # its wrong, proceed to game_over.
+    # it's wrong, proceed to game_over.
     else:
         guess_limit += 1
         if guess_limit >= len(HANGMANPICS) - 1:
@@ -276,18 +275,18 @@ def update_guess_display():
 # update_answer_display:
 # Updates the answer_display with any correct guesses and remaining letter spaces
 def update_answer_display():
-    global guessed_letters, letter_spaces, guess_limit
+    global guessed_letters, letter_spaces, guess_limit, chosen_word, current_answer
     displaytext = ""
     font_size = 20
 
     for i, letter in enumerate(chosen_word):
-        if current_answer[i] != "_":
-            displaytext += current_answer[i] + " "
-        else:
-            displaytext += "_ "
+        displaytext += current_answer[i] + " " if current_answer[i] != "_" else "_ "  # More concise
 
     displaytext = displaytext.strip()
     letter_spaces.config(text=displaytext, font=("Helvetica", font_size))
+    # Check if there are any underscores left in current_answer
+    if "_" not in current_answer:
+        game_win()
 
     # print(f"Updated Word: {displaytext}")  # For debugging, print the updated word
 
@@ -334,6 +333,8 @@ def game_over():
 def game_win():
     global playing
     if playing:
+        window.update()
+        time.sleep(0.1)
         messagebox.showerror("Winner!", f"You did it! Congratulations.")
         retrydialogue = messagebox.askyesno("Try again", "Would you like to try again?")
         if retrydialogue:

@@ -5,11 +5,10 @@
 
 #FEEDBACK
 #FIXED Decorate readme commands
-#When completing word, finish the word before congrats
+#FIXED When completing word, finish the word before congrats
 
 import HelperFunctions
 from HelperFunctions import *
-from tkinter import simpledialog
 
 # Main window Setup
 window = tk.Tk()
