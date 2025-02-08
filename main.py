@@ -2,11 +2,6 @@
 # Author: John Botonakis
 # Desc: Holds the main logic for displaying the window and it's pieces
 
-
-#FEEDBACK
-#FIXED Decorate readme commands
-#FIXED When completing word, finish the word before congrats
-
 import HelperFunctions
 from HelperFunctions import *
 
