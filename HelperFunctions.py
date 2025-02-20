@@ -76,7 +76,7 @@ def information():
         messagebox.showinfo("Help", "Awesome! Have fun playing.")
     else:
         messagebox.showinfo("Help", "The goal of the game is to guess the word in the ANSWER section using"
-                                    " individual letters to pice together the word!")
+                                    " individual letters to piece together the word!")
         messagebox.showinfo("Help", "You have 7 guesses. If you guess the word before he gets hanged, "
                                     "you win! Otherwise, you've condemned him to death.")
         messagebox.showinfo("Help", "Use the Restart Game button to restart the game. Have fun!")
