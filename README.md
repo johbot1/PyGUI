@@ -1,4 +1,4 @@
-# PyGUI
+# PyGUI ✅
 One of three Python related projects for my final semester, this one to build a GUI using Python. 
 As I stated in my PyTerm repo, it was nice to go back to my roots of programming and get this done. 
 I was reminded how finicky TKinter can be when making a GUI and how specific I am with frame placement 
